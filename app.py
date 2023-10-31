@@ -68,40 +68,28 @@ def predict_svm(input_data):
     prediction = svc_model.predict(input_data)
     return prediction
 
-# Función para determinar el estado civil
-def determine_marital_status(prediction):
-    if prediction[0] == 0:
-        return 'Divorciado'
-    else:
-        return 'Casado'
-
 # Función principal de la aplicación
 def main():
-    st.title('Predicción de Divorcio con SVM')
-    st.header('Respuestas de Usuario')
+    st.title('Divorce Prediction with SVM')
+    st.header('User Input')
 
-    # Crear widgets para ingresar datos de entrada
+    # Crear checkboxes para ingresar datos de entrada
     input_data = []
     for i, question in enumerate(questions):
-        # Asignar claves únicas para las casillas de verificación de "Sí" y "No"
-        yes_key = f"Yes_{i}"
-        no_key = f"No_{i}"
-        
-        # Crear casillas de verificación "Sí" y "No"
-        yes_answer = st.sidebar.checkbox(f"{question} (Sí)", key=yes_key)
-        no_answer = st.sidebar.checkbox(f"{question} (No)", key=no_key)
-        
-        # Convertir las respuestas en 1 y 0
-        answer = 1 if yes_answer else 0
+        answer = st.checkbox(question)
         input_data.append(answer)
 
     # Convertir las respuestas en 0 o 1
+    input_data = [int(answer) for answer in input_data]
+
     input_data = pd.DataFrame({f'Atr{i+1}': [value] for i, value in enumerate(input_data)})
 
-    if st.button('Predecir'):
+    if st.button('Predict'):
         prediction = predict_svm(input_data)
-        marital_status = determine_marital_status(prediction)
-        st.write(f'Predicción: {marital_status}')
+        if prediction[0] == 0:
+            st.write('Prediction: Divorce')
+        else:
+            st.write('Prediction: Married')
 
 if __name__ == '__main__':
     main()
