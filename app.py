@@ -80,24 +80,19 @@ def main():
     st.title('Predicción de Divorcio con SVM')
     st.header('Respuestas de Usuario')
 
-    # Crear checkboxes para ingresar datos de entrada
+    # Crear widgets para ingresar datos de entrada
     input_data = []
     for i, question in enumerate(questions):
-        st.write(f'**Pregunta {i+1}:** {question}')
-        answer_yes = st.checkbox(f'Sí')
-        answer_no = st.checkbox(f'No')
-        # Si ambas casillas están marcadas, consideramos la respuesta como "Sí"
-        if answer_yes and answer_no:
-            answer = 1
-        # Si ninguna casilla está marcada, consideramos la respuesta como "No"
-        elif not answer_yes and not answer_no:
-            answer = 0
-        # Si solo "Sí" está marcado, consideramos la respuesta como "Sí"
-        elif answer_yes and not answer_no:
-            answer = 1
-        # Si solo "No" está marcado, consideramos la respuesta como "No"
-        else:
-            answer = 0
+        # Asignar claves únicas para las casillas de verificación de "Sí" y "No"
+        yes_key = f"Yes_{i}"
+        no_key = f"No_{i}"
+        
+        # Crear casillas de verificación "Sí" y "No"
+        yes_answer = st.sidebar.checkbox(f"{question} (Sí)", key=yes_key)
+        no_answer = st.sidebar.checkbox(f"{question} (No)", key=no_key)
+        
+        # Convertir las respuestas en 1 y 0
+        answer = 1 if yes_answer else 0
         input_data.append(answer)
 
     # Convertir las respuestas en 0 o 1
