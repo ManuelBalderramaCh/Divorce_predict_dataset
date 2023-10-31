@@ -71,7 +71,8 @@ def predict_svm(input_data):
 # Función principal de la aplicación
 def main():
     st.title('Divorce Prediction with SVM')
-    st.header('User Input')
+    st.header('Predicting if Married or Divorce')
+    st.text('Select the options that concern you.')
 
     # Crear checkboxes para ingresar datos de entrada
     input_data = []
